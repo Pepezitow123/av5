@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Letreiro Deslizante</title>
+<style>
+    /* Tela principal */
+    body {
+        background: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; 
+        margin: 0;
+    }
+
+    /* Área do letreiro */
+    #container {
+        width: 600px;         /* Largura da tela */
+        height: 120px;        /* Altura da tela */
+        border: 3px solid #222;
+        background: white;
+        overflow: hidden;     /* Esconde o texto fora da área */
+        position: relative;
+        padding: 20px;        /* Espaço livre ao redor do letreiro */
+        display: flex;
+        align-items: center;  /* Alinhamento vertical do texto */
+    }
+
+    /* Texto do letreiro */
+    #texto {
+        white-space: nowrap;  /* Impede quebra de linha */
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="texto">"Você é capaz de coisas incríveis. Não desista!"</div>
+</div>
+
+<script>
+    let texto = document.getElementById("texto");
+    let container = document.getElementById("container");
+
+    let pos = 0;                // Posição inicial (esquerda → direita)
+    let direcao = 1;            // 1 = direita, -1 = esquerda
+    let velocidade = 2;         // Controle da velocidade do letreiro
+
+    function animar() {
+        let larguraTexto = texto.offsetWidth;
+        let larguraContainer = container.offsetWidth;
+
+        pos += direcao * velocidade;
+        texto.style.left = pos + "px";
+
+        // Quando chegar na borda direita → volta
+        if (pos + larguraTexto >= larguraContainer) {
+            direcao = -1;
+        }
+
+        // Quando chegar na borda esquerda → vai para a direita novamente
+        if (pos <= 0) {
+            direcao = 1;
+        }
+
+        requestAnimationFrame(animar);
+    }
+
+    animar();
+</script>
+
+</body>
+</html>
